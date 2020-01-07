@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaveView">
+        <attr name="transform_src" format="reference"/>
+        <attr name="is_stroke" format="boolean"/>
+        <attr name="auto_rise" format="boolean"/>
+    </declare-styleable>
+</resources>
