@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import java.util.List;
 
 /**
- * @author 李可勇
+ * @author codersun
  * @time 2019/10/25 11:26
  */
 public class WaveArg
@@ -24,6 +24,10 @@ public class WaveArg
 	private boolean mAutoRise;
 
 	private boolean mIsStroke;
+
+	private int mXDuration;
+
+	private int mYDuration;
 
 	private WaveArg()
 	{
@@ -100,14 +104,25 @@ public class WaveArg
 		return this;
 	}
 
-/*	public int getBgId()
+	public int getxDuration()
 	{
-		return mBgId;
+		return mXDuration;
 	}
 
-	public WaveArg setBgId(int mBgId)
+	public WaveArg setxDuration(int xDuration)
 	{
-		this.mBgId = mBgId;
+		mXDuration = xDuration;
 		return this;
-	}*/
+	}
+
+	public int getyDuration()
+	{
+		return mYDuration;
+	}
+
+	public WaveArg setyDuration(int yDuration)
+	{
+		mYDuration = yDuration;
+		return this;
+	}
 }

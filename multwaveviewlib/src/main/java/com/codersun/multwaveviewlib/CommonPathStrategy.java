@@ -6,8 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 /**
- * @author 李可勇
- * @time $date$ $time$
+ * @author codersun
  */
 public class CommonPathStrategy implements IDrawPathStrategy
 {
@@ -19,10 +18,10 @@ public class CommonPathStrategy implements IDrawPathStrategy
 	}
 
 	@Override
-	public 	void calculatePath(Path path, Wave wave,float viewWidth, float heightMultiple)
+	public void calculatePath(Path path, Wave wave, float viewWidth, float heightMultiple)
 	{
-			path.rQuadTo(viewWidth / 4, -wave.waveHeight * heightMultiple, viewWidth/ 2, 0);
-			path.rQuadTo(viewWidth / 4, wave.waveHeight * heightMultiple, viewWidth / 2, 0);
+		path.rQuadTo(viewWidth / 4, -wave.waveHeight * heightMultiple, viewWidth / 2, 0);
+		path.rQuadTo(viewWidth / 4, wave.waveHeight * heightMultiple, viewWidth / 2, 0);
 
 	}
 

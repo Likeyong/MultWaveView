@@ -44,7 +44,7 @@ public class Wave implements Comparable<Wave>
 	 * 因为当波长波高波速一致时
 	 * 粗线条会把细线条完全覆盖
 	 *
-	 * @author 李可勇
+	 * @author codersun
 	 * @time 2019/10/24 16:02
 	 */
 	@Override

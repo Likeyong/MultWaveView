@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -20,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author 李可勇
+ * @author codersun
  * @time 2019/10/23 11:15
  */
 public class WaveView extends View
@@ -68,17 +67,15 @@ public class WaveView extends View
 	//背景颜色
 	private int mViewBgColor;
 
-	private float curX;
-
-	private float curY;
-
-	private float mLastX;
-
-	private float mLastY;
-
 	private int mWidth;
 
 	private int mHeight;
+
+	//水波纹横向滚动周期
+	private int mXDuration = 1000;
+
+	//水波纹纵向增长的周期
+	private int mYDuration = 1000 * 2;
 
 	public WaveView(Context context)
 	{
@@ -95,7 +92,6 @@ public class WaveView extends View
 		super(context, attrs, defStyleAttr);
 		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaveView);
 		init(typedArray);
-
 		typedArray.recycle();
 	}
 
@@ -123,7 +119,7 @@ public class WaveView extends View
 	{
 		//初始化波纹波动的动画
 		mDxAnimator = new ValueAnimator();
-		mDxAnimator.setDuration(500 * 2);
+		mDxAnimator.setDuration(mXDuration);
 		mDxAnimator.setInterpolator(new LinearInterpolator());
 		mDxAnimator.setRepeatCount(ValueAnimator.INFINITE);
 		mDxAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
@@ -138,7 +134,7 @@ public class WaveView extends View
 		});
 
 		mDyAnimator = new ValueAnimator();
-		mDyAnimator.setDuration(2 * 1000);
+		mDyAnimator.setDuration(mYDuration);
 		mDyAnimator.setRepeatCount(ValueAnimator.INFINITE);
 		mDyAnimator.setInterpolator(new LinearInterpolator());
 		mDyAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
@@ -193,19 +189,30 @@ public class WaveView extends View
 
 	private void parseArg(WaveArg waveArg)
 	{
+		if (waveArg.getxDuration() != 0)
+		{
+
+			mXDuration = waveArg.getxDuration();
+		}
+		if (waveArg.getyDuration() != 0)
+		{
+
+			mYDuration = waveArg.getyDuration();
+		}
+
 		mViewBgColor = waveArg.getViewBgColor();
 		mStroke = waveArg.getIsStroke();
 		mAutoRise = waveArg.getAutoRise();
 		mTransformCanvas = waveArg.getTransformCanvas();
 		mBgBitmap = waveArg.getTransformBitmap();
 		mWaves = waveArg.getWaveList();
-	
+
 	}
 
 	/**
 	 * 设置波纹数据,并开启绘制
 	 *
-	 * @author 李可勇
+	 * @author codersun
 	 * @time 2019/10/24 15:49
 	 */
 	private void parseWaveData()
@@ -224,6 +231,12 @@ public class WaveView extends View
 
 	}
 
+	/**
+	 * 设置波峰高度为当前多少倍
+	 *
+	 * @author codersun
+	 * @time 2020/1/10 10:50
+	 */
 	public void setWaveHeightMultiple(float multiple)
 	{
 		mHeightMultiple = multiple;
@@ -260,16 +273,6 @@ public class WaveView extends View
 			viewWidth = mBgBitmap.getWidth();
 		}
 
-
-
-		/*if (mBgBitmap != null)
-		{
-			heightMeasureSpec = MeasureSpec.makeMeasureSpec(mBgBitmap.getHeight(), MeasureSpec.EXACTLY);
-			widthMeasureSpec = MeasureSpec.makeMeasureSpec(mBgBitmap.getWidth(), MeasureSpec.EXACTLY);
-			viewWidth = mBgBitmap.getWidth();
-			viewHeight = mBgBitmap.getHeight();
-		}*/
-
 		setMeasuredDimension(viewWidth, viewHeight);
 	}
 
@@ -277,6 +280,8 @@ public class WaveView extends View
 	protected void onSizeChanged(int w, int h, int oldw, int oldh)
 	{
 		super.onSizeChanged(w, h, oldw, oldh);
+		mWidth = w;
+		mHeight = h;
 	}
 
 	@Override
@@ -284,10 +289,10 @@ public class WaveView extends View
 	{
 		super.onLayout(changed, left, top, right, bottom);
 		mPaint.setStyle(mStroke ? Paint.Style.STROKE : Paint.Style.FILL_AND_STROKE);
-		mDyAnimator.setIntValues(getHeight(), 0);
-		mDxAnimator.setIntValues(0, getWidth());
 		mWidth = getWidth();
 		mHeight = getHeight();
+		mDyAnimator.setIntValues(mHeight, 0);
+		mDxAnimator.setIntValues(0, mWidth);
 		if (mAutoRise)
 		{
 			mDyAnimator.start();
@@ -309,7 +314,7 @@ public class WaveView extends View
 		if (mTransformCanvas != null)
 		{
 			mTransformPath.reset();
-			int color = mTransformCanvas.transform(canvas, mTransformPath, getWidth(), getHeight());
+			int color = mTransformCanvas.transform(canvas, mTransformPath, mWidth, mHeight);
 			canvas.clipPath(mTransformPath);
 			if (color != 0)
 			{
@@ -321,7 +326,7 @@ public class WaveView extends View
 		int saveLayer = 0;
 		if (mDrawPathStrategy != null)
 		{
-			saveLayer = mDrawPathStrategy.onPreDrawPath(canvas, mBgBitmap, mPaint, getWidth(), getHeight());
+			saveLayer = mDrawPathStrategy.onPreDrawPath(canvas, mBgBitmap, mPaint, mWidth, mHeight);
 		}
 
 		//重置每一条path, 并设置path起点
@@ -409,29 +414,6 @@ public class WaveView extends View
 				mDxAnimator.start();
 			}
 		}
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event)
-	{
-		super.onTouchEvent(event);
-		switch (event.getAction())
-		{
-			case MotionEvent.ACTION_DOWN:
-				curX = event.getX();
-				curY = event.getY();
-				break;
-			case MotionEvent.ACTION_MOVE:
-				curX = event.getX();
-				curY = event.getY();
-				scrollBy((int) (mLastX - curX), (int) (mLastY - curY));
-				break;
-			case MotionEvent.ACTION_UP:
-				break;
-		}
-		mLastX = curX;
-		mLastY = curY;
-		return true;
 	}
 
 }

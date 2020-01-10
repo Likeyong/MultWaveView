@@ -8,8 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 
 /**
- * @author 李可勇
- * @time $date$ $time$
+ * @author codersun
  */
 public class BitmapPathStrategy implements IDrawPathStrategy
 {
@@ -24,7 +23,7 @@ public class BitmapPathStrategy implements IDrawPathStrategy
 	}
 
 	@Override
-	public int onPreDrawPath(Canvas canvas,  Bitmap bitmap, Paint paint, int viewWidth, int viewHeight)
+	public int onPreDrawPath(Canvas canvas, Bitmap bitmap, Paint paint, int viewWidth, int viewHeight)
 	{
 		if (bitmap != null)
 		{
@@ -39,9 +38,9 @@ public class BitmapPathStrategy implements IDrawPathStrategy
 	}
 
 	@Override
-	public 	void calculatePath(Path path, Wave wave,float viewWidth, float heightMultiple)
+	public void calculatePath(Path path, Wave wave, float viewWidth, float heightMultiple)
 	{
-		path.rQuadTo(viewWidth/ 4, -wave.waveHeight * heightMultiple, viewWidth / 2, 0);
+		path.rQuadTo(viewWidth / 4, -wave.waveHeight * heightMultiple, viewWidth / 2, 0);
 		path.rQuadTo(viewWidth / 4, wave.waveHeight * heightMultiple, viewWidth / 2, 0);
 	}
 
