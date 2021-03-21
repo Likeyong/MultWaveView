@@ -4,11 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <com.codersun.multwaveviewlib.WaveView
         android:id="@+id/wave"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.codersun.multwaveviewlib.WaveView
+        android:id="@+id/wave2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.codersun.multwaveviewlib.WaveView
+        android:id="@+id/wave3"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="#f00"/>
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
