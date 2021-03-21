@@ -356,7 +356,7 @@ public class WaveView extends View
 				Path path = pathHashMap.get(wave);
 				if (mDrawPathStrategy != null)
 				{
-					mDrawPathStrategy.calculatePath(path, wave, mWidth, 1);
+					mDrawPathStrategy.calculatePath(path, wave, mWidth, mHeightMultiple);
 				}
 
 			}
@@ -372,7 +372,7 @@ public class WaveView extends View
 			//对path进行close
 			if (mDrawPathStrategy != null)
 			{
-				mDrawPathStrategy.closePath(mPaint, path, wave, mWidth * 3, mHeight / 2);
+				mDrawPathStrategy.closePath(mPaint, path, wave, mWidth * 3,  mHeight );
 			}
 
 			//设置每条水波纹设置的偏移量
