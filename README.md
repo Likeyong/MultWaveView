@@ -1,7 +1,7 @@
 # MultWaveView
 
 # 先上效果
-![wave.gif](https://upload-images.jianshu.io/upload_images/5406710-0a4814bbe5a304fa.gif?imageMogr2/auto-orient/strip)
+![wave.gif](https://github.com/Likeyong/MultWaveView/blob/master/wave.gif)
 
 
 gradle 引用
