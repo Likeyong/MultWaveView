@@ -3,6 +3,7 @@
 # 先上效果
 ![wave.gif](https://github.com/Likeyong/MultWaveView/blob/master/wave.gif)
 
+[如果图崩了，请点击](https://gitee.com/miliun/cutaway/blob/master/multWaveView/wave.gif)
 
 gradle 引用
 ```
