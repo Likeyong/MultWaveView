@@ -33,5 +33,5 @@ public interface IDrawPathStrategy
 	 * @author codersun
 	 * @time 2019/10/28 15:22
 	 */
-	void closePath(Paint paint, Path path, Wave wave, int waveXLength, int waveDy);
+	void closePath(Paint paint, Path path, Wave wave, int waveXLength, int waveDy, int viewWidth, int viewHeight);
 }
